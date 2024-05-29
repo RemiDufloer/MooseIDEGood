@@ -12,7 +12,6 @@ Class {
 	#name : #MiModelsBrowser,
 	#superclass : #MiAbstractBrowser,
 	#instVars : [
-		'toolbar',
 		'modelFilteringList'
 	],
 	#category : #'MooseIDE-Meta-ModelsBrowser'
@@ -34,17 +33,6 @@ MiModelsBrowser class >> buildModelCommandsGroupWith: presenterInstance [
 			  (MiModelExportCommand asCommandGroupWith: presenterInstance);
 		  register:
 			  (MiModelUtilityCommand asCommandGroupWith: presenterInstance)
-]
-
-{ #category : #layout }
-MiModelsBrowser class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: #toolbar
-		  withConstraints: [ :constraints | 
-			  constraints height: self toolbarHeight ];
-		  add: #modelFilteringList;
-		  yourself
 ]
 
 { #category : #testing }
@@ -102,15 +90,39 @@ MiModelsBrowser class >> windowSize [
 	^ 600 @ 400
 ]
 
+{ #category : #initialization }
+MiModelsBrowser >> buildToolbar [
+
+	^ self newToolbar
+		  fillWith: (MiImportCommand asCommandGroupForSpecContext: self);
+		  beIcons;
+		  addItem: self refreshToolbarButton;
+		  yourself
+]
+
 { #category : #testing }
 MiModelsBrowser >> canFollowEntity: anObject [
+
 	^ false
 ]
 
 { #category : #testing }
 MiModelsBrowser >> canTagEntities [
-	"manipulates models, not entities"
-	^false
+
+	"This browser manipulates models, not entities"
+
+	^ false
+]
+
+{ #category : #layout }
+MiModelsBrowser >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		  add: self buildToolbar
+		  withConstraints: [ :constraints |
+			  constraints height: self class toolbarHeight ];
+		  add: #modelFilteringList;
+		  yourself
 ]
 
 { #category : #actions }
@@ -135,6 +147,7 @@ MiModelsBrowser >> handleDropFile: aFileReference [
 
 { #category : #testing }
 MiModelsBrowser >> hasSettings [
+
 	^ true
 ]
 
@@ -145,31 +158,17 @@ MiModelsBrowser >> importFromFileUI [
 ]
 
 { #category : #initialization }
-MiModelsBrowser >> initializeList [
+MiModelsBrowser >> initializePresenters [
 
 	modelFilteringList := self newFilteringList.
 	self listOfMooseModels: specModel entities.
 
-	modelFilteringList display: [ :mooseModel | mooseModel name ].
-	modelFilteringList listPresenter contextMenu: [ (self class buildModelCommandsGroupWith: self) asMenuPresenter ].
-	modelFilteringList whenSelectionChangedDo: [ :selected | specModel selected: selected selectedItem ]
-]
+	modelFilteringList
+		display: [ :mooseModel | mooseModel name ];
+		contextMenu: [ self modelCommandsGroup asMenuPresenter ].
 
-{ #category : #initialization }
-MiModelsBrowser >> initializePresenters [
-
-	self initializeToolbar.
-	self initializeList
-]
-
-{ #category : #initialization }
-MiModelsBrowser >> initializeToolbar [
-
-	toolbar := self newToolbar
-		           fillWith: (MiImportCommand asCommandGroupForSpecContext: self);
-		           beIcons;
-		           addItem: self refreshToolbarButton;
-		           yourself
+	modelFilteringList whenSelectionChangedDo: [ :selected |
+		specModel selected: selected selectedItem ]
 ]
 
 { #category : #updating }
@@ -191,9 +190,10 @@ MiModelsBrowser >> miSelectedItemToPropagate [
 	^ specModel selectedModel
 ]
 
-{ #category : #'accessing - tests' }
-MiModelsBrowser >> modelFilteringList [
-	^ modelFilteringList
+{ #category : #commands }
+MiModelsBrowser >> modelCommandsGroup [
+
+	^ self class buildModelCommandsGroupWith: self
 ]
 
 { #category : #initialization }
@@ -208,6 +208,7 @@ MiModelsBrowser >> refreshToolbarButton [
 
 { #category : #'accessing - tests' }
 MiModelsBrowser >> settingsItem [
+
 	^ specModel settings
 ]
 

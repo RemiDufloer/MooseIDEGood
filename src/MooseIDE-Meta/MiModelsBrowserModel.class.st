@@ -59,7 +59,7 @@ MiModelsBrowserModel >> currentMooseModel [
 	^ self selected
 ]
 
-{ #category : #'accessing - tests' }
+{ #category : #accessing }
 MiModelsBrowserModel >> entities [
 
 	^ mooseModelsList
