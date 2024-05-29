@@ -33,9 +33,10 @@ MiClassBlueprintBrowser class >> menuPriority [
 ]
 
 { #category : #'instance creation' }
-MiClassBlueprintBrowser class >> open [ 
+MiClassBlueprintBrowser class >> open [
+
 	<script>
-	super open
+	^ super open
 ]
 
 { #category : #'instance creation' }

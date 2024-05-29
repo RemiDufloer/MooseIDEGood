@@ -35,8 +35,9 @@ MiQueriesDashboardBrowser class >> newModel [
 
 { #category : #accessing }
 MiQueriesDashboardBrowser class >> open [
+
 	<script>
-	super open
+	^ super open
 ]
 
 { #category : #accessing }

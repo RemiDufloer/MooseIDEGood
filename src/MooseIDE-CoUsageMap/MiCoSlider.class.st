@@ -24,13 +24,13 @@ MiCoSlider >> getValueSelector: aString [
 
 { #category : #initialization }
 MiCoSlider >> initialize [
+
 	super initialize.
 	min := 0.
 	max := 1.
 	self
 		value: 0.5;
 		initializeScale
-	
 ]
 
 { #category : #initialization }
@@ -47,15 +47,16 @@ MiCoSlider >> radius [
 
 { #category : #hooks }
 MiCoSlider >> renderIn: aCanvas [
+
 	self initializeScale.
 	aCanvas color: Color transparent.
-	aCanvas 
+	aCanvas
 		addShape: self backLine;
 		addShape: self rangeLine.
-	
+
 	value := self valueFromModel.
 	self resizeSlider: aCanvas.
-	aCanvas 
+	aCanvas
 		when: RSExtentChangedEvent send: #resizeSlider: to: self;
 		when: RSMouseClick send: #updateValue: to: self;
 		when: RSMouseDragging send: #updateValue: to: self

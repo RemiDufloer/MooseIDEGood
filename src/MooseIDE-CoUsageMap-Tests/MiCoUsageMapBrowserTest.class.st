@@ -18,16 +18,12 @@ MiCoUsageMapBrowserTest >> populateBrowser: mooseModel [
 
 ]
 
-{ #category : #tests }
+{ #category : #'tests - opening' }
 MiCoUsageMapBrowserTest >> testCanOpenSettings [
 
-	browser hasSettings ifFalse: [ self skip ].
-	"this should not raise an error"
-	browser settings.
-  "tear down"
-	[ browser closeSettings ]
-		on: Error
-		do: [ "nothing -- ensuring settings window is closed" ]
+	| window |
+
+	[ window := browser model openSettings ] ensure: [ window close ]
 ]
 
 { #category : #tests }

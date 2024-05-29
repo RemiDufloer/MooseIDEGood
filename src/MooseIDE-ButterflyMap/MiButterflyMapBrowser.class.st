@@ -62,8 +62,9 @@ MiButterflyMapBrowser class >> newModel [
 
 { #category : #'instance creation' }
 MiButterflyMapBrowser class >> open [
+
 	<script>
-	super open
+	^ super open
 ]
 
 { #category : #specs }

@@ -55,7 +55,7 @@ MiSystemComplexityBrowser class >> newModel [
 MiSystemComplexityBrowser class >> open [
 
 	<script>
-	super open
+	^ super open
 ]
 
 { #category : #specs }

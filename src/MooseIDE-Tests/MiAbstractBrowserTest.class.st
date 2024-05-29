@@ -189,13 +189,10 @@ MiAbstractBrowserTest >> testCanOpenOnObject [
 { #category : #'tests - opening' }
 MiAbstractBrowserTest >> testCanOpenSettings [
 
-	browser hasSettings ifFalse: [ self skip ].
-	"this should not raise an error"
-	browser settings.
-  "tear down"
-	[ browser closeSettings ]
-		on: Error
-		do: [ "nothing -- ensuring settings window is closed" ]
+	browser hasSettings ifFalse: [ ^ self skip ].
+
+	[ browser settings ] ensure: [
+		browser model settings withWindowDo: [ :window | window close ] ]
 ]
 
 { #category : #'tests - tags' }
@@ -373,15 +370,12 @@ MiAbstractBrowserTest >> testSettingsClickOK [
 { #category : #'tests - opening' }
 MiAbstractBrowserTest >> testSettingsClickReset [
 
-	browser hasSettings ifFalse: [ self skip ].
+	browser hasSettings ifFalse: [ ^ self skip ].
 
-	self
-		shouldnt: [ 
-			browser settings.
-			browser model settings buttonReset click ]
-		raise: Error.
-
-	[ browser closeSettings ] on: Error do: [ "nothing -- ensuring settings window is closed as REset does not do it" ]
+	[
+	browser settings.
+	browser model settings buttonReset click ] ensure: [
+		browser model settings withWindowDo: [ :window | window close ] ]
 ]
 
 { #category : #'tests - tags' }

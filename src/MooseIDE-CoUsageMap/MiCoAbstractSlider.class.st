@@ -5,7 +5,7 @@ TODO: Make generic for whole MooseIDE ?
 "
 Class {
 	#name : #MiCoAbstractSlider,
-	#superclass : #RSAbstractContainerBuilder,
+	#superclass : #RSBuilder,
 	#instVars : [
 		'backLine',
 		'rangeLine',

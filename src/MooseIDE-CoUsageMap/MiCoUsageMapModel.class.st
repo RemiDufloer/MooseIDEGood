@@ -51,12 +51,6 @@ MiCoUsageMapModel >> changeTagsDuring: aBlockClosure [
 	self selectedTag: lastTag
 ]
 
-{ #category : #'private - for tests' }
-MiCoUsageMapModel >> closeSettings [
-	"used only for closing settings opened in tests"
-	settingsWindow ifNotNil: [ settingsWindow close ]
-]
-
 { #category : #accessing }
 MiCoUsageMapModel >> containerBoxNamed: aByteString [
 	^ self containerBoxes detect: [ :contr | contr name = aByteString ]
@@ -264,27 +258,25 @@ MiCoUsageMapModel >> newInnerBoxFor: anObject [
 
 { #category : #actions }
 MiCoUsageMapModel >> openSettings [
-	"For now, we handle settings here:
-	 - create the window 
-	 - subscribe to be informed when any window is closed closed
-	 - if this is the setting window that is closed
-	    - unsubscribe to ALL announcements
-	    - update the visualization"
 
 	| settingBrowser |
+
 	settingBrowser := SettingBrowser new.
-	settingBrowser changePackageSet: (OrderedCollection with: (self packageOrganizer packageNamed: MiCoUsageMapSettings package name)).
+	settingBrowser changePackageSet:
+		(Set with: MiCoUsageMapSettings package).
+
 	settingsWindow := settingBrowser open.
-	settingsWindow position: self currentWorld extent - settingsWindow extent // 2.
+	settingsWindow position:
+		self currentWorld extent - settingsWindow extent // 2.
+
 	settingBrowser expandAll.
 
-	self currentWorld announcer
-		when: WindowClosed
-		do: [ :annoucement |
-			annoucement window = settingsWindow ifTrue: [
-				self currentWorld announcer unsubscribe: self.
-				browser runVisualization ] ]
-		for: self
+	settingsWindow
+		onAnnouncement: WindowClosed
+		send: #runVisualization
+		to: browser.
+
+	^ settingsWindow
 ]
 
 { #category : #properties }

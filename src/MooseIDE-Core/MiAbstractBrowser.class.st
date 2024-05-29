@@ -410,15 +410,6 @@ MiAbstractBrowser >> canTagEntities [
 	^ true
 ]
 
-{ #category : #'private - for tests' }
-MiAbstractBrowser >> closeSettings [
-	"to close the settings window when testing
-	Should not be used otherwise"
-
-	self hasSettings 
-	ifTrue: [ self model settings window close]
-]
-
 { #category : #buses }
 MiAbstractBrowser >> followBus: aBus [
 

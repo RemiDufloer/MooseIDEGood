@@ -55,6 +55,7 @@ MiDuplicationBrowser class >> newModel [
 
 { #category : #'instance creation' }
 MiDuplicationBrowser class >> open [
+
 	<script>
 	^ super open
 ]
