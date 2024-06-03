@@ -44,7 +44,7 @@ MiModelsBrowserModel >> allModelRootBrowser [
 { #category : #settings }
 MiModelsBrowserModel >> autoImportSetting [
 
-	^ settings getItemValue: #modelAutoImportSetting
+	^ (settings at: #modelAutoImportSetting) currentValue
 ]
 
 { #category : #accessing }
@@ -71,6 +71,12 @@ MiModelsBrowserModel >> entities: aList [
 	mooseModelsList := aList
 ]
 
+{ #category : #settings }
+MiModelsBrowserModel >> globalValueOfSetting: aSymbol [
+
+	^ (settings at: aSymbol) defaultValue
+]
+
 { #category : #initialization }
 MiModelsBrowserModel >> initialize [
 
@@ -80,28 +86,34 @@ MiModelsBrowserModel >> initialize [
 	self initializeSettings 
 ]
 
-{ #category : #initialization }
-MiModelsBrowserModel >> initializeSettings [ 
+{ #category : #settings }
+MiModelsBrowserModel >> initializeSettings [
 
-	settings := super initializeSettings.
-	settings	addItem: (MiCheckboxSettingItem new
-		setValue: true ;
-		label: 'Filter out stubs?' ;
-		help: 'When propagating the model should it filter out the stub entities or pass them along' ;
-		yourself)
-		named: #filterStubsSetting.
-		
-	settings addItem: (MiCheckboxSettingItem new
-		setValue: false ;
-		label: 'Automatically import drag&drop files?' ;
-		help: 'When drag & drop model from file should it be automatically imported if possible or should it just configure the import dialog' ;
-		yourself)
-		named: #modelAutoImportSetting.
+	settings := Dictionary new.
+
+	settings at: #filterStubsSetting put: (MiBooleanSetting new
+			 browserModel: self;
+			 initializeLocalValue: true;
+			 iconName: #mooseFilter;
+			 label: 'Filter out stubs?';
+			 help:
+				 'When propagating the model should it filter out the stub entities or pass them along';
+			 yourself).
+
+	settings at: #modelAutoImportSetting put: (MiBooleanSetting new
+			 browserModel: self;
+			 initializeLocalValue: false;
+			 iconName: #mooseDragAndDrop;
+			 label: 'Automatically import drag&drop files?';
+			 help:
+				 'When drag & drop model from file should it be automatically imported if possible or should it just configure the import dialog';
+			 yourself)
 ]
 
-{ #category : #keymaps }
-MiModelsBrowserModel >> openSettings [ 
-	settings open
+{ #category : #settings }
+MiModelsBrowserModel >> openSettings [
+
+	^ (MiLocalSettingsPresenter on: self) openDialog
 ]
 
 { #category : #accessing }
@@ -120,7 +132,9 @@ MiModelsBrowserModel >> selected: anObject [
 MiModelsBrowserModel >> selectedModel [
 
 	^ self shouldFilterStubs
-		  ifTrue: [ self selected ifNotNil: [ :selectedModel | (selectedModel reject: [ :each | each isStub ]) asMooseGroup ] ]
+		  ifTrue: [
+			  self selected ifNotNil: [ :selectedModel |
+				  (selectedModel reject: [ :each | each isStub ]) asMooseGroup ] ]
 		  ifFalse: [ self selected ]
 ]
 
@@ -129,10 +143,10 @@ MiModelsBrowserModel >> settings [
 	^ settings
 ]
 
-{ #category : #accessing }
+{ #category : #settings }
 MiModelsBrowserModel >> shouldFilterStubs [
 
-	^ settings getItemValue: #filterStubsSetting
+	^ (settings at: #filterStubsSetting) currentValue
 ]
 
 { #category : #updating }
