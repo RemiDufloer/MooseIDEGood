@@ -33,10 +33,10 @@ MiAbstractModel >> currentApplication [
 
 { #category : #accessing }
 MiAbstractModel >> currentMooseModel [
-	self entities ifNil: [ ^nil ].
-	self entities ifEmpty: [ ^nil ].
-	^self entities anyOne mooseModel
-	
+
+	self entities ifNil: [ ^ nil ].
+	self entities ifEmpty: [ ^ nil ].
+	^ self entities anyOne mooseModel
 ]
 
 { #category : #accessing }

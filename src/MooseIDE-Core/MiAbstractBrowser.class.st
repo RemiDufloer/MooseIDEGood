@@ -586,7 +586,7 @@ MiAbstractBrowser >> setDefaultReceivingMode [
 	self receivingMode: MiFollowMode
 ]
 
-{ #category : #initialization }
+{ #category : #'accessing - model' }
 MiAbstractBrowser >> setModelBeforeInitialization: aBrowserModel [
 	aBrowserModel ifNil: [ ^self ].
 

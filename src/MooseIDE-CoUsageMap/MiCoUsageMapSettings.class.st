@@ -86,20 +86,13 @@ When the container has several attributes of different colors, the color is chos
 ]
 
 { #category : #settings }
-MiCoUsageMapSettings class >> browsingSettings01On: aBuilder [
-	<systemsettings>
-	(aBuilder group: #moose)
-		label: 'Moose';
-		description: 'All settings concerned with moose browsers'
-]
+MiCoUsageMapSettings class >> buildSettingsOn: aBuilder [
 
-{ #category : #settings }
-MiCoUsageMapSettings class >> browsingSettings02On: aBuilder [
 	<systemsettings>
 	(aBuilder group: #CoUsageMap)
-		parent: #moose;
-		label: 'Co Usage Map';
-		description: 'Alls settings concerned with co usage map browser'
+		parent: #mooseIDE;
+		label: 'Co-Usage Map';
+		description: 'Alls settings concerning the Co-usage Map browser'
 ]
 
 { #category : #accessing }

@@ -31,6 +31,16 @@ MiApplication class >> defaultBusName [
 	^ 'Default'
 ]
 
+{ #category : #settings }
+MiApplication class >> mooseIDESettingsOn: aBuilder [
+
+	<systemsettings>
+	(aBuilder group: #mooseIDE)
+		label: 'Moose IDE';
+		parent: #moose;
+		description: 'All settings concerning Moose browsers'
+]
+
 { #category : #'class initialization' }
 MiApplication class >> reset [
 	<script>
