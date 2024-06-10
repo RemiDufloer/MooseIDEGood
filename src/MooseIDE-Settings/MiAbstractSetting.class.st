@@ -28,6 +28,12 @@ MiAbstractSetting class >> named: aSymbol [
 		  yourself
 ]
 
+{ #category : #'as yet unclassified' }
+MiAbstractSetting class >> presenterHeight [
+
+	self subclassResponsibility
+]
+
 { #category : #accessing }
 MiAbstractSetting >> browserModel: aMiBrowserModel [
 
@@ -126,4 +132,10 @@ MiAbstractSetting >> name [
 MiAbstractSetting >> name: aSymbol [
 
 	name := aSymbol
+]
+
+{ #category : #ui }
+MiAbstractSetting >> presenterHeight [
+
+	^ self class presenterHeight
 ]

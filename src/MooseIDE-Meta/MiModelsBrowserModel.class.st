@@ -74,7 +74,8 @@ MiModelsBrowserModel >> entities: aList [
 { #category : #settings }
 MiModelsBrowserModel >> globalValueOfSetting: aSymbol [
 
-	^ (settings at: aSymbol) defaultValue
+	self flag: 'Horrible. Faire appel au global for real'.
+	^ (settings at: aSymbol ifAbsent: [ ^ false ]) defaultValue
 ]
 
 { #category : #initialization }
@@ -86,27 +87,31 @@ MiModelsBrowserModel >> initialize [
 	self initializeSettings 
 ]
 
-{ #category : #settings }
+{ #category : #initialization }
 MiModelsBrowserModel >> initializeSettings [
 
 	settings := Dictionary new.
 
 	settings at: #filterStubsSetting put: (MiBooleanSetting new
 			 browserModel: self;
+			 name: #filterStubsSetting;
 			 initializeLocalValue: true;
 			 iconName: #mooseFilter;
 			 label: 'Filter out stubs?';
 			 help:
-				 'When propagating the model should it filter out the stub entities or pass them along';
+				 'If set to true, clicking Propagate will send to the bus a MooseGroup containing only the entities that are not stub.
+If set to false, send the entire model.';
 			 yourself).
 
 	settings at: #modelAutoImportSetting put: (MiBooleanSetting new
 			 browserModel: self;
+			 name: #modelAutoImportSetting;
 			 initializeLocalValue: false;
 			 iconName: #mooseDragAndDrop;
-			 label: 'Automatically import drag&drop files?';
-			 help:
-				 'When drag & drop model from file should it be automatically imported if possible or should it just configure the import dialog';
+			 label: 'Automatically import drag & drop files?';
+			 help: 'Behavior when a model file is droped: 
+If set to true, the model will be automatically imported if possible.
+If set to false, the import dialog will open, configured according to the file.';
 			 yourself)
 ]
 
@@ -140,7 +145,8 @@ MiModelsBrowserModel >> selectedModel [
 
 { #category : #'accessing - tests' }
 MiModelsBrowserModel >> settings [
-	^ settings
+
+	^ settings values sorted: #name ascending
 ]
 
 { #category : #settings }
