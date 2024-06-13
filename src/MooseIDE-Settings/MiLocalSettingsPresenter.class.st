@@ -51,6 +51,15 @@ MiLocalSettingsPresenter >> layout [
 		  builder beColumnNotHomogeneous ]
 ]
 
+{ #category : #showing }
+MiLocalSettingsPresenter >> openDialog [
+
+	^ super openDialog
+		  okAction: [  ];
+		  cancelAction: [  ];
+		  yourself
+]
+
 { #category : #'accessing - model' }
 MiLocalSettingsPresenter >> setModelBeforeInitialization: aMiBrowserModel [
 

@@ -1,14 +1,14 @@
 Class {
-	#name : #filterStubsSetting,
+	#name : #MiModelsFilterSetting,
 	#superclass : #MiBooleanSetting,
 	#category : #'MooseIDE-Meta-ModelsBrowser'
 }
 
 { #category : #settings }
-filterStubsSetting class >> buildSettingNodeOn: aBuilder [
+MiModelsFilterSetting class >> buildSettingNodeOn: aBuilder [
 
-	<systemsettings>
-	(aBuilder setting: self name)
+"	<systemsettings>"
+	(aBuilder setting: self id)
 		target: self;
 		parent: #mooseIDE;
 		default: true;
@@ -18,44 +18,39 @@ filterStubsSetting class >> buildSettingNodeOn: aBuilder [
 ]
 
 { #category : #accessing }
-filterStubsSetting class >> defaultValue [
+MiModelsFilterSetting class >> defaultValue [
 
 	^ true
 ]
 
 { #category : #accessing }
-filterStubsSetting class >> description [
+MiModelsFilterSetting class >> description [
 
 	^ 'If set to true, clicking Propagate will send to the bus a MooseGroup containing only the entities that are not stub.
 If set to false, send the entire model.'
 ]
 
-{ #category : #'as yet unclassified' }
-filterStubsSetting class >> globalValue: aBoolean [
-
-	
-]
-
 { #category : #accessing }
-filterStubsSetting class >> iconName [
+MiModelsFilterSetting class >> iconName [
 
 	^ #mooseFilter
 ]
 
 { #category : #accessing }
-filterStubsSetting class >> label [
+MiModelsFilterSetting class >> id [
+
+	^ #filterStubsSetting
+]
+
+{ #category : #accessing }
+MiModelsFilterSetting class >> label [
 
 	^ 'Filter out stubs?'
 ]
 
 { #category : #accessing }
-filterStubsSetting class >> name [
+MiModelsFilterSetting class >> name [
+	"Answer the name of the receiver."
 
-	^ #filterStubsSetting
-]
-
-{ #category : #'as yet unclassified' }
-filterStubsSetting >> globalValue: aBoolean [
-
-	
+	^ name ifNil: [ super name ]
 ]

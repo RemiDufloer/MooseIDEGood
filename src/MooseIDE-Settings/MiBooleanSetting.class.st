@@ -10,6 +10,12 @@ MiBooleanSetting class >> checkBoxWidth [
 	^ 16
 ]
 
+{ #category : #ui }
+MiBooleanSetting class >> height [
+
+	^ 16
+]
+
 { #category : #'as yet unclassified' }
 MiBooleanSetting class >> presenterHeight [
 
