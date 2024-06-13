@@ -35,6 +35,23 @@ MiModelsBrowser class >> buildModelCommandsGroupWith: presenterInstance [
 			  (MiModelUtilityCommand asCommandGroupWith: presenterInstance)
 ]
 
+{ #category : #settings }
+MiModelsBrowser class >> buildSettingGroupOn: aBuilder [
+
+	<systemsettings>
+	(aBuilder group: self menuItem)
+		parent: #mooseIDE;
+		label: self title , ' settings';
+		description: self description;
+		iconName: self menuIconName
+]
+
+{ #category : #accessing }
+MiModelsBrowser class >> description [
+
+	^ 'Settings for the Models browser'
+]
+
 { #category : #testing }
 MiModelsBrowser class >> isModelImporter [
 	^true

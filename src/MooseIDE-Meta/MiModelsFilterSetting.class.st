@@ -7,10 +7,10 @@ Class {
 { #category : #settings }
 MiModelsFilterSetting class >> buildSettingNodeOn: aBuilder [
 
-"	<systemsettings>"
+	<systemsettings>
 	(aBuilder setting: self id)
 		target: self;
-		parent: #mooseIDE;
+		parent: MiModelsBrowser menuItem;
 		default: true;
 		description: self description;
 		selector: #defaultValue;
@@ -46,11 +46,4 @@ MiModelsFilterSetting class >> id [
 MiModelsFilterSetting class >> label [
 
 	^ 'Filter out stubs?'
-]
-
-{ #category : #accessing }
-MiModelsFilterSetting class >> name [
-	"Answer the name of the receiver."
-
-	^ name ifNil: [ super name ]
 ]
