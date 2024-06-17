@@ -344,7 +344,7 @@ MiArchitecturalMapModel >> megaMorphicSize [
 { #category : #accessing }
 MiArchitecturalMapModel >> miSelectedItem [
 
-	^self entities
+	^ self entities
 ]
 
 { #category : #settings }

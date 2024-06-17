@@ -36,10 +36,10 @@ MiModelsBrowser class >> buildModelCommandsGroupWith: presenterInstance [
 ]
 
 { #category : #settings }
-MiModelsBrowser class >> buildSettingGroupOn: aBuilder [
+MiModelsBrowser class >> buildSettingNodeOn: aBuilder [
 
 	<systemsettings>
-	(aBuilder group: self menuItem)
+	(aBuilder group: #ModelsBrowser)
 		parent: #mooseIDE;
 		label: self title , ' settings';
 		description: self description;
@@ -153,7 +153,7 @@ MiModelsBrowser >> followEntity: anEntity [
 { #category : #actions }
 MiModelsBrowser >> handleDropFile: aFileReference [
 
-	self model autoImportSetting
+	self model shouldAutomaticallyImportModels
 		ifTrue: [
 		self importFromFileUI handleDropFileAndImport: aFileReference ]
 		ifFalse: [

@@ -444,7 +444,7 @@ MiAbstractBrowser >> freezeDuring: aBlock [
 { #category : #testing }
 MiAbstractBrowser >> hasSettings [
 
-	^false
+	^ false
 ]
 
 { #category : #testing }
@@ -536,6 +536,12 @@ MiAbstractBrowser >> needUpdate: anEntity [
 	^ anEntity ~= specModel selected
 ]
 
+{ #category : #actions }
+MiAbstractBrowser >> openSettings [
+
+	specModel openSettings
+]
+
 { #category : #'private - accessing' }
 MiAbstractBrowser >> receiveEntity: anEntity [
 
@@ -592,12 +598,6 @@ MiAbstractBrowser >> setModelBeforeInitialization: aBrowserModel [
 
 	specModel := aBrowserModel.
 	specModel browser: self
-]
-
-{ #category : #actions }
-MiAbstractBrowser >> settings [
-
-	self hasSettings ifTrue: [ specModel openSettings ]
 ]
 
 { #category : #actions }

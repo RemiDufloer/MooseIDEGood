@@ -27,7 +27,7 @@ MiBooleanSetting >> buildPresenterIn: presenter [
 
 	^ presenter newCheckBox
 		  state: self currentValue;
-		  help: self help;
+		  help: self class description;
 		  whenChangedDo: [ :booleanValue | self localValue: booleanValue ];
 		  yourself
 ]

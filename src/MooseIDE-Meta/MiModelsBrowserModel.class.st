@@ -30,7 +30,8 @@ Class {
 	#instVars : [
 		'mooseModelsList',
 		'selected',
-		'settings'
+		'shouldFilterStubsSetting',
+		'shouldAutomaticallyImportModelsSetting'
 	],
 	#category : #'MooseIDE-Meta-ModelsBrowser'
 }
@@ -39,12 +40,6 @@ Class {
 MiModelsBrowserModel >> allModelRootBrowser [
 
 	^ browser application allBrowsers: MiModelsBrowser
-]
-
-{ #category : #settings }
-MiModelsBrowserModel >> autoImportSetting [
-
-	^ (settings at: #modelAutoImportSetting) currentValue
 ]
 
 { #category : #accessing }
@@ -71,13 +66,6 @@ MiModelsBrowserModel >> entities: aList [
 	mooseModelsList := aList
 ]
 
-{ #category : #settings }
-MiModelsBrowserModel >> globalValueOfSetting: aSymbol [
-
-	self flag: 'Horrible. Faire appel au global for real'.
-	^ (settings at: aSymbol ifAbsent: [ ^ false ]) defaultValue
-]
-
 { #category : #initialization }
 MiModelsBrowserModel >> initialize [
 
@@ -90,32 +78,17 @@ MiModelsBrowserModel >> initialize [
 { #category : #initialization }
 MiModelsBrowserModel >> initializeSettings [
 
-	settings := Dictionary new.
-
-	settings at: #filterStubsSetting put: (MiBooleanSetting new
-			 browserModel: self;
-			 name: #filterStubsSetting;
-			 initializeLocalValue: true;
-			 iconName: #mooseFilter;
-			 label: 'Filter out stubs?';
-			 help:
-				 'If set to true, clicking Propagate will send to the bus a MooseGroup containing only the entities that are not stub.
-If set to false, send the entire model.';
-			 yourself).
-
-	settings at: #modelAutoImportSetting put: (MiBooleanSetting new
-			 browserModel: self;
-			 name: #modelAutoImportSetting;
-			 initializeLocalValue: false;
-			 iconName: #mooseDragAndDrop;
-			 label: 'Automatically import drag & drop files?';
-			 help: 'Behavior when a model file is droped: 
-If set to true, the model will be automatically imported if possible.
-If set to false, the import dialog will open, configured according to the file.';
-			 yourself)
+	shouldFilterStubsSetting := MiModelsFilterStubsSetting new.
+	shouldAutomaticallyImportModelsSetting := MiModelsAutoImportSetting new
 ]
 
-{ #category : #settings }
+{ #category : #accessing }
+MiModelsBrowserModel >> miSelectedItem [
+
+	^ selected
+]
+
+{ #category : #actions }
 MiModelsBrowserModel >> openSettings [
 
 	^ (MiLocalSettingsPresenter on: self) openDialog
@@ -129,6 +102,7 @@ MiModelsBrowserModel >> selected [
 
 { #category : #accessing }
 MiModelsBrowserModel >> selected: anObject [
+
 	selected := anObject.
 	browser updateToolbar
 ]
@@ -146,13 +120,21 @@ MiModelsBrowserModel >> selectedModel [
 { #category : #'accessing - tests' }
 MiModelsBrowserModel >> settings [
 
-	^ settings values sorted: #name ascending
+	^ {
+		  shouldAutomaticallyImportModelsSetting.
+		  shouldFilterStubsSetting }
+]
+
+{ #category : #settings }
+MiModelsBrowserModel >> shouldAutomaticallyImportModels [
+
+	^ shouldAutomaticallyImportModelsSetting currentValue
 ]
 
 { #category : #settings }
 MiModelsBrowserModel >> shouldFilterStubs [
 
-	^ (settings at: #filterStubsSetting) currentValue
+	^ shouldFilterStubsSetting currentValue
 ]
 
 { #category : #updating }

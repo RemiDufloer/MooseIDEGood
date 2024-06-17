@@ -189,10 +189,11 @@ MiAbstractBrowserTest >> testCanOpenOnObject [
 { #category : #'tests - opening' }
 MiAbstractBrowserTest >> testCanOpenSettings [
 
+	| settingsPresenter |
 	browser hasSettings ifFalse: [ ^ self skip ].
 
-	[ browser settings ] ensure: [
-		browser model settings withWindowDo: [ :window | window close ] ]
+	[ settingsPresenter := browser openSettings ] ensure: [
+		settingsPresenter withWindowDo: [ :window | window close ] ]
 ]
 
 { #category : #'tests - tags' }
@@ -370,12 +371,13 @@ MiAbstractBrowserTest >> testSettingsClickOK [
 { #category : #'tests - opening' }
 MiAbstractBrowserTest >> testSettingsClickReset [
 
+	| settingPresenter |
 	browser hasSettings ifFalse: [ ^ self skip ].
 
 	[
-	browser settings.
-	browser model settings buttonReset click ] ensure: [
-		browser model settings withWindowDo: [ :window | window close ] ]
+	settingPresenter := browser openSettings.
+	settingPresenter buttonReset click ] ensure: [
+		settingPresenter withWindowDo: [ :window | window close ] ]
 ]
 
 { #category : #'tests - tags' }

@@ -2,57 +2,92 @@ Class {
 	#name : #MiAbstractSetting,
 	#superclass : #Object,
 	#instVars : [
-		'browserModel',
-		'name',
-		'label',
-		'help',
-		'localValue',
-		'iconName'
+		'localValue'
+	],
+	#classInstVars : [
+		'globalValue'
 	],
 	#category : #'MooseIDE-Settings'
 }
 
-{ #category : #'instance creation' }
-MiAbstractSetting class >> for: aMiBrowserModel [
+{ #category : #settings }
+MiAbstractSetting class >> buildSettingNodeOn: aBuilder [
 
-	^ self new
-		  browserModel: aMiBrowserModel;
-		  yourself
+	^ (aBuilder setting: self settingID)
+		  selector: self settingSelector;
+		  label: self label;
+		  description: self description;
+		  iconName: self iconName
 ]
 
-{ #category : #'instance creation' }
-MiAbstractSetting class >> named: aSymbol [
+{ #category : #accessing }
+MiAbstractSetting class >> defaultValue [
 
-	^ self new
-		  name: aSymbol;
-		  yourself
+	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
-MiAbstractSetting class >> presenterHeight [
+{ #category : #specs }
+MiAbstractSetting class >> description [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-MiAbstractSetting >> browserModel: aMiBrowserModel [
+MiAbstractSetting class >> globalValue [
 
-	browserModel := aMiBrowserModel
+	^ globalValue ifNil: [ globalValue := self defaultValue ]
+]
+
+{ #category : #accessing }
+MiAbstractSetting class >> globalValue: anObject [
+
+	globalValue := anObject
+]
+
+{ #category : #accessing }
+MiAbstractSetting class >> iconName [
+
+	^ #configuration
+]
+
+{ #category : #specs }
+MiAbstractSetting class >> label [
+
+	^ ''
+]
+
+{ #category : #specs }
+MiAbstractSetting class >> presenterHeight [
+
+	self subclassResponsibility
+]
+
+{ #category : #specs }
+MiAbstractSetting class >> settingID [
+
+	self subclassResponsibility
+]
+
+{ #category : #specs }
+MiAbstractSetting class >> settingSelector [
+
+	^ #globalValue
 ]
 
 { #category : #ui }
 MiAbstractSetting >> buildIconIn: presenter [
 
-	^ presenter newImage image:
-		  (presenter iconNamed: self iconName) yourself
+	^ presenter newImage
+		  image: (presenter iconNamed: self class iconName);
+		  yourself
 ]
 
 { #category : #ui }
 MiAbstractSetting >> buildLabelIn: presenter [
 
 	^ presenter newLabel
-		  label: self label;
-		  help: self help;
+		  label: self class label;
+		  help: self class description;
 		  yourself
 ]
 
@@ -65,73 +100,13 @@ MiAbstractSetting >> buildPresenterIn: anOwnerPresenter [
 { #category : #accessing }
 MiAbstractSetting >> currentValue [
 
-	^ localValue
-]
-
-{ #category : #accessing }
-MiAbstractSetting >> globalValue [
-
-	^ browserModel globalValueOfSetting: self name
-]
-
-{ #category : #accessing }
-MiAbstractSetting >> help [
-
-	^ help ifNil: [ '' ]
-]
-
-{ #category : #accessing }
-MiAbstractSetting >> help: aString [
-
-	help := aString
-]
-
-{ #category : #accessing }
-MiAbstractSetting >> iconName [
-
-	^ iconName ifNil: [ #configuration ]
-]
-
-{ #category : #accessing }
-MiAbstractSetting >> iconName: aSymbol [
-
-	iconName := aSymbol
-]
-
-{ #category : #accessing }
-MiAbstractSetting >> initializeLocalValue: anObject [
-
-	localValue := self globalValue ifNil: [ anObject ]
-]
-
-{ #category : #accessing }
-MiAbstractSetting >> label [
-
-	^ label ifNil: [ '' ]
-]
-
-{ #category : #accessing }
-MiAbstractSetting >> label: aString [
-
-	label := aString
+	^ localValue ifNil: [ self class globalValue ]
 ]
 
 { #category : #accessing }
 MiAbstractSetting >> localValue: anObject [
 
 	localValue := anObject
-]
-
-{ #category : #accessing }
-MiAbstractSetting >> name [
-
-	^ name
-]
-
-{ #category : #accessing }
-MiAbstractSetting >> name: aSymbol [
-
-	name := aSymbol
 ]
 
 { #category : #ui }

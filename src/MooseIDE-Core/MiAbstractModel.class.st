@@ -56,6 +56,13 @@ MiAbstractModel >> miSelectedItem [
 	self subclassResponsibility
 ]
 
+{ #category : #actions }
+MiAbstractModel >> openSettings [
+	"Nothing to do if no settings. Override if necessary"
+
+	
+]
+
 { #category : #tagging }
 MiAbstractModel >> selectedTag [
 
