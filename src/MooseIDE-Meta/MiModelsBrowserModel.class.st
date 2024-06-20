@@ -45,7 +45,7 @@ MiModelsBrowserModel >> allModelRootBrowser [
 { #category : #accessing }
 MiModelsBrowserModel >> availableMooseModels [
 
-	^ MooseModel root allModels
+	^ MooseModel root entities
 ]
 
 { #category : #accessing }
