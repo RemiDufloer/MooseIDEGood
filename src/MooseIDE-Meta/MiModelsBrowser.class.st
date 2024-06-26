@@ -12,6 +12,7 @@ Class {
 	#name : #MiModelsBrowser,
 	#superclass : #MiAbstractBrowser,
 	#instVars : [
+		'toolbar',
 		'modelFilteringList'
 	],
 	#category : #'MooseIDE-Meta-ModelsBrowser'
@@ -50,6 +51,12 @@ MiModelsBrowser class >> buildSettingNodeOn: aBuilder [
 MiModelsBrowser class >> description [
 
 	^ 'Settings for the Models browser'
+]
+
+{ #category : #'instance creation' }
+MiModelsBrowser class >> instantiateAndOpen [
+
+	^ super open
 ]
 
 { #category : #testing }
@@ -92,7 +99,7 @@ MiModelsBrowser class >> newModel [
 MiModelsBrowser class >> open [
 
 	<script>
-	^ super open
+	^ MiApplication current openCurrentModelsBrowser
 ]
 
 { #category : #specs }
@@ -105,6 +112,13 @@ MiModelsBrowser class >> title [
 MiModelsBrowser class >> windowSize [
 
 	^ 600 @ 400
+]
+
+{ #category : #'window control' }
+MiModelsBrowser >> browserClosed [
+
+	super browserClosed.
+	self application unregisterModelsBrowser
 ]
 
 { #category : #initialization }
